@@ -1,3 +1,15 @@
+"""
+Pipeline
+
+I. To read csv file
+II. To preprocess the file
+    - Transfer Mandarin to English
+    - Mask gender and age
+    - Calculate the Consultation rate(%)
+III. To build a bar chart
+
+
+"""
 from typing import Union, Tuple, Optional
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -14,8 +26,7 @@ def load_csv(p: Union[Path, str]) -> pd.DataFrame:
     load csv file
 
     :param p: csv path or containing folder
-    :return:
-        pd.DataFrame
+    :return: pd.DataFrame
     """
     if isinstance(p, str):  # if the variable p is an instance of the str class
         p = Path(p)  # if yes, creates a new object of 'Path' class and assigns it to the variable 'p'
@@ -51,6 +62,8 @@ def parse_csv(df: pd.DataFrame,
     df.columns = ["Gender", "Age", "Diseases", "Patients"]
     df["Gender"].replace({"女": "Females", "男": "Males", "總計": "Total"}, inplace=True)
     df["Age"].replace({"總計": "Total"}, inplace=True)
+    df['Age'].replace({"85歲以上": "above 85 year-old"}, inplace=True)
+    df["Age"] = df["Age"].str.replace("歲", "")  # remove 歲
     df["Diseases"].replace({"呼吸系統疾病": "Respiratory Disease",
                             "消化系統疾病": "Digestive system disease",
                             "急性上呼吸道感染和流行性感冒": "Acute upper respiratory tract infection & Influenza",
@@ -64,16 +77,18 @@ def parse_csv(df: pd.DataFrame,
                             "症狀、徵候與臨床和實驗室的異常發現，他處未歸類者": "Abnormal findings, unclassified",
                             "其他症狀、徵候與臨床和實驗室的異常發現": "abnormal findings on clinical and laboratory examination",
                             "傷害、中毒與其它外因造成的特定影響": "Injuries, poisoning, and specific effects caused by other external factors",
-                            "其他損傷": "Other injuries"}, inplace=True)
+                            "其他損傷": "Other injuries",
+                            "肺炎": "Pneumonia",
+                            "其他急性下呼吸道感染": "Other Acute Lower Respiratory Tract Infections"}, inplace=True)
 
     # age mask
     if age_range is None:
         age_m = df['Age'] == "Total"
     else:
         if age_range[0] != 85:
-            age_m = df['Age'] == f'{age_range[0]}~{age_range[1]} year-old'
+            age_m = df['Age'] == f'{age_range[0]}~{age_range[1]}'
         else:  # above 85 years
-            age_m = df['Age'] == f'{age_range[0]} greater than 85 year-old'
+            age_m = df['Age'] == f'{age_range[0]} above 85 year-old'
 
     df = df[age_m]
 
@@ -85,19 +100,28 @@ def parse_csv(df: pd.DataFrame,
     return df
 
 
-def _plot_bar(ax: Axes, df: pd.DataFrame, gender: str):
+def _plot_bar(ax: Axes, df: pd.DataFrame, gender: str, age_range: Optional[Tuple[int, int]] = None):
     """bar plot"""
     x = df['Diseases'].to_numpy()
     y = df['Consultation rate(%)'].to_numpy()
 
-    for i in range(df.shape[0]):
-        ax.bar(x[i], y[i], label=x[i])
+    if age_range is not None:
+        for i in range(df.shape[0]):
+            ax.bar(x[i], y[i], label=x[i])
+        ax.get_xaxis().set_visible(False)
+        ax.set_ylabel('Consultation rate(%)')
+        ax.set_title(f'Statistics of {gender} patients {(age_range[0])} to {(age_range[1])} year-old in ER')
+        ax.legend()
+        plt.show()
+    else:
+        for i in range(df.shape[0]):
+            ax.bar(x[i], y[i], label=x[i])
+        ax.get_xaxis().set_visible(False)
+        ax.set_ylabel('Consultation rate(%)')
+        ax.set_title(f'Statistics of {gender} patients in ER')
 
-    ax.get_xaxis().set_visible(False)
-    ax.set_ylabel('Consultation rate(%)')
-    ax.set_title(f'Statistics of {gender} patients in ER')
-    ax.legend()
-    plt.show()
+        ax.legend()
+        plt.show()
 
 
 def plot_er_stat(p: Union[Path, str],
@@ -118,13 +142,13 @@ def plot_er_stat(p: Union[Path, str],
     df = df[1:rank + 1]  # remove sum
 
     _, ax = plt.subplots()
-    _plot_bar(ax, df, gender)
+    _plot_bar(ax, df, gender, age_range)
 
 
 if __name__ == '__main__':
     plot_er_stat(
         p='../test_file/Summary_of_patients_in_ER_20210318.csv',
         gender='Females',
-        age_range=None,
+        age_range=(10, 14),
         rank=10
     )

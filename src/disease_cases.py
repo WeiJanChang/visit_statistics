@@ -2,9 +2,6 @@ from typing import Union, Tuple, Optional
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
-import numpy as np
-
-from matplotlib.axes import Axes
 
 plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']
 plt.rcParams['axes.unicode_minus'] = False

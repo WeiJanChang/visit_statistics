@@ -51,6 +51,20 @@ def parse_csv(df: pd.DataFrame,
     df.columns = ["Gender", "Age", "Diseases", "Patients"]
     df["Gender"].replace({"女": "Females", "男": "Males", "總計": "Total"}, inplace=True)
     df["Age"].replace({"總計": "Total"}, inplace=True)
+    df["Diseases"].replace({"呼吸系統疾病": "Respiratory Disease",
+                            "消化系統疾病": "Digestive system disease",
+                            "急性上呼吸道感染和流行性感冒": "Acute upper respiratory tract infection & Influenza",
+                            "腹痛及骨盆痛": "Abdominal and Pelvic pain", "生殖泌尿系統疾病": "Genitourinary disease",
+                            "循環系統疾病": "Circulatory system disease", "其他頭部損傷": "Head injury",
+                            "其他泌尿系統疾病": "Other urinary system disease",
+                            "其他及未明示非傳染性胃腸炎及結腸炎": "Unknown noninfective enteritis and colitis",
+                            "內分泌、營養和代謝疾病": "Endocrine, nutritional and metabolic disease",
+                            "皮膚及皮下組織疾病": "Skin and subcutaneous tissue disease",
+                            "感染症及寄生蟲病": "Infectious disease & Parasite infection",
+                            "症狀、徵候與臨床和實驗室的異常發現，他處未歸類者": "Abnormal findings, unclassified",
+                            "其他症狀、徵候與臨床和實驗室的異常發現": "abnormal findings on clinical and laboratory examination",
+                            "傷害、中毒與其它外因造成的特定影響": "Injuries, poisoning, and specific effects caused by other external factors",
+                            "其他損傷": "Other injuries"}, inplace=True)
 
     # age mask
     if age_range is None:

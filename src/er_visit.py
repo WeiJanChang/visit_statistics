@@ -143,12 +143,3 @@ def plot_er_stat(p: Union[Path, str],
 
     _, ax = plt.subplots()
     _plot_bar(ax, df, gender, age_range)
-
-
-if __name__ == '__main__':
-    plot_er_stat(
-        p='../test_file/Summary_of_patients_in_ER_20210318.csv',
-        gender='Females',
-        age_range=(10, 14),
-        rank=10
-    )

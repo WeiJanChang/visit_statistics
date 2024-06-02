@@ -38,9 +38,3 @@ def preprocess_data(p: Union[Path, str], save_path: Union[Path, str]) -> pd.Data
     df.to_csv(save_path)
 
     return df
-
-
-if __name__ == '__main__':
-    p = '../test_file/Data_on_monkeypox_cases_in_the_EU_EEA.csv'
-    save_path = '../test_file/summary_disease_cases.csv'
-    preprocess_data(p, save_path=save_path)

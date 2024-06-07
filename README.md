@@ -8,3 +8,18 @@ This dataset focuses on cases that visited emergency departments within Taiwan. 
 ## [European Centre for Disease Prevention and Control (ECDC)](https://www.ecdc.europa.eu/en/publications-data/data-mpox-monkeypox-cases-eueea): Monkeypox Cases in the EU/EEA
 
 This dataset specifically focuses on monkeypox cases within the European Union and European Economic Area (EU/EEA). It offers valuable insights into the prevalence, distribution, and characteristics of monkeypox cases in this region.
+
+# Installation
+- Create environment for the required dependencies
+```
+conda create -n pytutorial python~=3.10.0
+conda activate pytutorial
+cd [CLONED_DIRECTORY]
+pip install -r requirements.txt
+```
+- Buildup the src path
+```
+conda install conda-build
+conda develop src
+cd src
+```

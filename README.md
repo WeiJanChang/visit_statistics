@@ -49,6 +49,6 @@ bar chart
 from er_visit import plot_er_stat
 plot_er_stat(p=[CLONED_DIRECTORY],
 gender='Females',
-age_range=(0, 4),
+age_range=(10, 14),
 rank=10)
 ```

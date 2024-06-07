@@ -52,3 +52,4 @@ gender='Females',
 age_range=(10, 14),
 rank=10)
 ```
+![Example of bar chart](test_file/barchart.png)

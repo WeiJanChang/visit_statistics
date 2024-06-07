@@ -23,3 +23,31 @@ conda install conda-build
 conda develop src
 cd src
 ```
+
+# Usage - Emergency Department Visits
+
+## Loading a CSV File 
+```
+python
+from er_visit import load_csv
+df = load_csv([CLONED_DIRECTORY])
+```
+
+## Age and Gender Filter for ED Statistics
+Gender: Females, Males, Total
+Age: 5-year interval, start from 0 year old
+
+```
+from er_visit import parse_csv
+new_df = parse_csv(df,'Males',[0,4])
+```
+
+## Plotting ED Statistics
+bar chart
+```
+from er_visit import plot_er_stat
+plot_er_stat(p=[CLONED_DIRECTORY],
+gender='Females',
+age_range=(0, 4),
+rank=10)
+```

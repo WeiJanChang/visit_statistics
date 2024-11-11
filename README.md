@@ -50,3 +50,8 @@ from er_visit import plot_er_stat
 plot_er_stat(p=[CLONED_DIRECTORY], gender='Females', age_range=(10, 14), rank=10)
 ```
 ![Example of bar chart](test_file/barchart.png)
+
+
+# Contact
+
+For any questions or contributions, please contact [Wei Jan Chang](mailto:weijan.chang@gmail.com)
